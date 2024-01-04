@@ -81,7 +81,6 @@ async function search(url, container, type) {
       const mediaType = result.media_type;
       const mediaId = result.id;
 
-      // Use different endpoint for TV series
       const detailsUrl = mediaType === 'tv' ? `https://api.themoviedb.org/3/tv/${mediaId}?api_key=b0d5acb6165dce93012ec428819f1f7e` : `https://api.themoviedb.org/3/movie/${mediaId}?api_key=b0d5acb6165dce93012ec428819f1f7e`;
 
       try {
@@ -91,16 +90,14 @@ async function search(url, container, type) {
         const overview = details.overview && details.overview.length > 0 ? details.overview.substring(0, 100) + '...' : 'No description available';
         const posterImage = posterPath !== 'placeholder_image_url' ? `<img src="${posterPath}" alt="${title} Poster">` : 'No image available';
 
-        // Construct streaming link based on media type
         let streamingLink = '';
 
         if (mediaType === 'tv' && details.number_of_seasons > 0) {
-          // For TV series, construct link with series, season, and episode
-          const season = 1; // You may need to get this information from the API
-          const episode = 1; // You may need to get this information from the API
+          const season = 1;
+          const episode = 1;
           streamingLink = `https://vidsrc.to/embed/tv/${mediaId}/${season}/${episode}`;
         } else {
-          // For movies, construct link with just the media ID
+         
           streamingLink = `https://vidsrc.to/embed/movie/${mediaId}`;
         }
 
@@ -115,7 +112,6 @@ async function search(url, container, type) {
 
       } catch (error) {
         console.error('Error fetching details:', error);
-        // Display a placeholder in case of an error
         resultDiv.innerHTML = `
           <p>Error fetching details for ${title}</p>
         `;
