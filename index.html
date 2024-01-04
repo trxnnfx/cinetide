@@ -1,76 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Movie Information</title>
-</head>
-<body>
+  <head>
+    <title>random streaming site</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+  </head>
+  <body>
+    <h1>random streaming site</h1>
+    <label for="videoSource">Select Video Source:</label>
+    <select id="videoSource" onchange="toggleInputBars()">
+      <option value="vidsrc">VidSrc</option>
+      <option value="superembed">SuperEmbed</option>
+    </select>
 
-<div id="movies-container"></div>
+    <label for="videoType">Select Video Type:</label>
+    <select id="videoType" onchange="toggleInputBars()">
+      <option value="movie">Movie</option>
+      <option value="series">Series</option>
+    </select>
 
-<script>
-  // Replace 'YOUR_API_KEY' with your actual TMDb API key
-  const apiKey = 'YOUR_API_KEY';
+    <div id="movieInputs">
+      <label for="movieId">Enter Movie ID:</label>
+      <input type="text" id="movieId" placeholder="Enter movie ID">
+      <button onclick="changeVideo('movie')">Watch Movie</button>
+    </div>
 
-  // Example movie IDs (you can replace these with the IDs of the movies you're interested in)
-  const movieIds = [550, 155, 13];  // Example movies: Inception, The Dark Knight, Forrest Gump
+    <div id="seriesInputs" style="display:none;">
+      <label for="seriesId">Enter Series ID:</label>
+      <input type="text" id="seriesId" placeholder="Enter series ID">
+      <label for="season">Season:</label>
+      <input type="text" id="season" placeholder="Enter season">
+      <label for="episode">Episode:</label>
+      <input type="text" id="episode" placeholder="Enter episode">
+      <button onclick="changeVideo('series')">Watch Series</button>
+    </div>
 
-  // Function to fetch and display movie information
-  const fetchAndDisplayMovies = () => {
-    // Clear previous content
-    const moviesContainer = document.getElementById('movies-container');
-    moviesContainer.innerHTML = '';
+    <div id="videoContainer">
+      <iframe id="videoEmbed" src="https://vidsrc.to/embed/movie/10195" referrerpolicy="origin" allowfullscreen></iframe>
+    </div>
 
-    // Fetch information for each movie
-    movieIds.forEach(movieId => {
-      const url = `https://api.themoviedb.org/3/movie/${movieId}?api_key=${apiKey}&language=en-US`;
-
-      fetch(url)
-        .then(response => response.json())
-        .then(movieData => {
-          // Extract relevant information
-          const title = movieData.title;
-          const overview = movieData.overview;
-          const releaseDate = movieData.release_date;
-          const posterPath = movieData.poster_path;
-
-          // Display the information on the webpage
-          const movieElement = document.createElement('div');
-          movieElement.classList.add('movie');
-
-          movieElement.innerHTML = `
-            <img src="https://image.tmdb.org/t/p/w500${posterPath}" alt="${title} Poster">
-            <h2>${title}</h2>
-            <p><strong>Overview:</strong> ${overview}</p>
-            <p><strong>Release Date:</strong> ${releaseDate}</p>
-          `;
-
-          moviesContainer.appendChild(movieElement);
-        })
-        .catch(error => {
-          console.error('Error:', error);
-        });
-    });
-  };
-
-  // Call the function to fetch and display movies
-  fetchAndDisplayMovies();
-</script>
-
-<style>
-  .movie {
-    border: 1px solid #ddd;
-    padding: 15px;
-    margin: 10px;
-    text-align: center;
-  }
-
-  img {
-    max-width: 100%;
-    height: auto;
-  }
-</style>
-
-</body>
+    <script src="script.js"></script>
+  </body>
 </html>
