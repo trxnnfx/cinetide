@@ -72,30 +72,41 @@ async function search(url, container, type) {
 
   container.innerHTML = "";
 
-  respData.results.forEach(result => {
+  respData.results.forEach(async result => {
     if (result.poster_path) {
       const resultDiv = document.createElement("div");
       resultDiv.classList.add("result-item", "card");
       const posterPath = result.poster_path ? `https://image.tmdb.org/t/p/w200${result.poster_path}` : 'placeholder_image_url';
       const title = result.title || result.name;
+      const movieId = result.id;
 
       const detailsUrl = `https://api.themoviedb.org/3/movie/${result.id}?api_key=b0d5acb6165dce93012ec428819f1f7e`;
 
-      fetch(detailsUrl)
-        .then(response => response.json())
-        .then(details => {
-          const maxChars = 100;
-          const overview = details.overview.length > maxChars ? details.overview.substring(0, maxChars) + '...' : details.overview;
-          const streamingLink = result.streamingLink || 'https://google.com';
+      try {
+        const detailsResponse = await fetch(detailsUrl);
+        const details = await detailsResponse.json();
 
-          resultDiv.innerHTML = `
-            <img src="${posterPath}" alt="${title} Poster">
-            <p>${title}</p>
-            <p>${overview}</p>
-          `;
-        
-        })
-        .catch(error => console.error('Error fetching details:', error));
+        const overview = details.overview && details.overview.length > 0 ? details.overview.substring(0, 100) + '...' : 'No description available';
+        const posterImage = posterPath !== 'placeholder_image_url' ? `<img src="${posterPath}" alt="${title} Poster">` : 'No image available';
+
+        const streamingLink = result.streamingLink || "https://vidsrc.to/embed/movie/" + movieId; ;
+
+        resultDiv.innerHTML = `
+          ${posterImage}
+          <p>${title}</p>
+          <p>${overview}</p>
+        `;
+        resultDiv.addEventListener('click', function () {
+          window.location.href = streamingLink;
+        });
+
+      } catch (error) {
+        console.error('Error fetching details:', error);
+        // Display a placeholder in case of an error
+        resultDiv.innerHTML = `
+          <p>Error fetching details for ${title}</p>
+        `;
+      }
 
       resultDiv.addEventListener('click', function () {
         console.log("clicked: ", title)
