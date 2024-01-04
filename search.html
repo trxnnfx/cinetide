@@ -4,12 +4,92 @@
     <title>random streaming site</title>
     <link rel="stylesheet" type="text/css" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+#results {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+      
+.result-item {
+  position: relative;
+  background-color: #222222;
+  padding: 20px;
+  margin: 10px;
+  width: 200px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  text-align: center;
+  transition: transform 0.3s;
+}
+
+.result-item:hover {
+  transform: scale(1.05);
+}
+
+.result-item img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 4px;
+}
+
+.result-item p {
+  color: white;
+  font-size: 16px;
+  margin-top: 10px;
+}
+    </style>
   </head>
   <body>
     <h1>random streaming site</h1>
 
-    <input type="text" id="seriesId" placeholder="Enter series ID">
+    <input type="text" id="searchBar" placeholder="Search for media">
+    
+    <div id="results">
+      
+    </div>
 
-    <script src="script.js"></script>
+    <script>
+const searchUrl = 'https://api.themoviedb.org/3/search/multi?query=_QUERY_&include_adult=false&language=en-US&page=1&api_key=b0d5acb6165dce93012ec428819f1f7e';
+
+const results = document.getElementById("results");
+const searchInput = document.getElementById('searchBar');
+
+searchInput.addEventListener('input', function(event) {
+  event.preventDefault();
+  var searchInputValue = searchInput.value;
+
+  var finalUrl = searchUrl.replace("_QUERY_", searchInputValue);
+  search(finalUrl, results);
+});
+
+async function search(url, container, type) {
+  const resp = await fetch(url);
+  const respData = await resp.json();
+
+  container.innerHTML = "";
+
+  respData.results.forEach(result => {
+    if (result.poster_path) {
+      const resultDiv = document.createElement("div");
+      resultDiv.classList.add("result-item", "card");
+      const posterPath = result.poster_path ? `https://image.tmdb.org/t/p/w200${result.poster_path}` : 'placeholder_image_url';
+      const title = result.title || result.name;
+
+      resultDiv.innerHTML = `
+        <img src="${posterPath}" alt="${title} Poster">
+        <p>${title}</p>
+      `;
+
+      resultDiv.addEventListener('click', function() {
+        console.log("clicked: ", title)
+      });
+
+      container.appendChild(resultDiv);
+      }
+    });
+  });
+};
+    </script>
   </body>
 </html>
