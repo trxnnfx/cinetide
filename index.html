@@ -1,16 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    
-    <!-- This is the main template for the site, with index.jsx building the content and behavior -->
-    
-    <title>Hello React!</title>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" href="https://glitch.com/favicon.ico" />
+    <title>random streaming site</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
   </head>
   <body>
-    <div id="root"></div>
-    <script type="module" src="/src/index.jsx"></script>
+    <h1>random streaming site</h1>
+    <label for="videoSource">Select Video Source:</label>
+    <select id="videoSource" onchange="toggleInputBars()">
+      <option value="vidsrc">VidSrc</option>
+      <option value="superembed">SuperEmbed</option>
+    </select>
+
+    <label for="videoType">Select Video Type:</label>
+    <select id="videoType" onchange="toggleInputBars()">
+      <option value="movie">Movie</option>
+      <option value="series">Series</option>
+    </select>
+
+    <div id="movieInputs">
+      <label for="movieId">Enter Movie ID:</label>
+      <input type="text" id="movieId" placeholder="Enter movie ID">
+      <button onclick="changeVideo('movie')">Watch Movie</button>
+    </div>
+
+    <div id="seriesInputs" style="display:none;">
+      <label for="seriesId">Enter Series ID:</label>
+      <input type="text" id="seriesId" placeholder="Enter series ID">
+      <label for="season">Season:</label>
+      <input type="text" id="season" placeholder="Enter season">
+      <label for="episode">Episode:</label>
+      <input type="text" id="episode" placeholder="Enter episode">
+      <button onclick="changeVideo('series')">Watch Series</button>
+    </div>
+
+    <div id="videoContainer">
+      <iframe id="videoEmbed" src="https://vidsrc.to/embed/movie/10195" referrerpolicy="origin" allowfullscreen></iframe>
+    </div>
+
+    <script src="script.js"></script>
   </body>
 </html>
