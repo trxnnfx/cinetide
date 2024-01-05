@@ -127,7 +127,7 @@
         <a href="index.html">Home</a>
         <a href="search.html">Search</a>
     </div>
-    <h1>Browse Movies and Series</h1>
+    <h1>Cinetide</h1>
 </div>
 
 <section class="section">
@@ -141,8 +141,8 @@
 </section>
 
 <section class="section">
-    <h2>Editor's Picks</h2>
-    <div id="editors-picks" class="results-container"></div>
+    <h2>TMDB Movies</h2>
+    <div id="tmdb-movies" class="results-container"></div>
 </section>
 
 
@@ -178,18 +178,14 @@
 document.addEventListener('DOMContentLoaded', function () {
     const popularThisWeekUrl = `https://api.themoviedb.org/3/trending/all/week?api_key=${apiKey}&language=en-US&page=1`;
     const highestRankingUrl = `https://api.themoviedb.org/3/movie/top_rated?api_key=${apiKey}&language=en-US&page=1`;
-    const editorsPicksUrl = `https://api.themoviedb.org/3/tv/top_rated?api_key=${apiKey}&language=en-US&page=1`; // Updated URL
-    const popularSeriesUrl = `https://api.themoviedb.org/3/tv/popular?api_key=${apiKey}&language=en-US&page=1`;
+    const tmdbMoviesUrl = `https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&language=en-US&page=1`;
 
     fetchMovies(popularThisWeekUrl, 'popular-movies');
     fetchMovies(highestRankingUrl, 'latest-movies');
-    fetchMovies(editorsPicksUrl, 'editors-picks'); // Updated container ID
-    fetchMovies(popularSeriesUrl, 'latest-series');
+    fetchMovies(tmdbMoviesUrl, 'tmdb-movies');
 });
-
-
+  
 </script>
-
-
+  
 </body>
 </html>
