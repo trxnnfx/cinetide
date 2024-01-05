@@ -11,7 +11,8 @@
             background-color: #1a1a1a;
             color: #ffffff;
             text-align: center;
-            margin: 20px;
+            margin: 0;
+            padding: 0;
         }
 
         h1 {
@@ -32,13 +33,14 @@
 
         .results-container {
             display: flex;
-            overflow-x: auto;
             gap: 20px;
-            justify-content: center;
+            overflow-x: auto; /* Enable horizontal scrolling */
+            scrollbar-width: thin; /* Specify scrollbar width for Firefox */
+            scrollbar-color: #555555 #333333; /* Specify scrollbar colors for Firefox */
         }
 
         .result-item {
-            width: 150px; /* Set a fixed width for the movie posters */
+            width: 250px; /* Set a specific width for each item */
             text-align: center;
         }
 
@@ -75,6 +77,7 @@
 
 <script>
     const apiKey = 'b0d5acb6165dce93012ec428819f1f7e';
+    const maxResults = 7; // Set the maximum number of results to display
 
     async function fetchMovies(url, containerId) {
         const response = await fetch(url);
@@ -82,9 +85,10 @@
         const container = document.getElementById(containerId);
 
         container.innerHTML = data.results
+            .slice(0, maxResults)
             .map(result => `
                 <div class="result-item">
-                    <img src="https://image.tmdb.org/t/p/w200${result.poster_path}" alt="${result.title}">
+                    <img src="https://image.tmdb.org/t/p/w300${result.poster_path}" alt="${result.title}">
                     <p>${result.title}</p>
                 </div>
             `)
