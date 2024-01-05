@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Cinetide</title>
+    <title>Movie/TV Show Details</title>
     <link rel="stylesheet" type="text/css" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
     <style>
@@ -18,18 +18,21 @@
         margin: 0 auto;
       }
 
+      h1 {
+        margin: 20px 0 10px;
+        font-size: 32px;
+        color: #ffffff;
+      }
+
       img {
         max-width: 100%;
         border-radius: 8px;
         margin-bottom: 20px;
       }
 
-      h1 {
-        margin-bottom: 10px;
-      }
-
       p {
         margin-bottom: 20px;
+        color: #ffffff;
       }
 
       select {
@@ -44,6 +47,8 @@
         border: none;
         cursor: pointer;
         transition: background-color 0.3s;
+        padding: 8px 16px;
+        border-radius: 5px;
       }
 
       button:hover {
@@ -51,30 +56,49 @@
       }
 
       button#return-to-search {
-        margin-top: 10px; 
-        width: 150px;
+        margin-top: 10px;
+        margin-right: 10px;
+        width: 180px;
         border: 2px solid #3498db;
         color: #3498db;
         background-color: transparent;
         border-radius: 5px;
         cursor: pointer;
         transition: background-color 0.3s;
+        padding: 8px 16px;
       }
 
-      button#return-to-search:hover {
+      button#return-to-browse {
+        margin-top: 10px;
+  width: 180px;
+  border: 2px solid #3498db;
+  color: #3498db;
+  background-color: transparent;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  padding: 8px 16px;
+}
+
+
+      button#return-to-search:hover, button#return-to-browse:hover {
         background-color: transparent;
         border: 3px solid #ffffff;
         color: #ffffff;
       }
-
     </style>
   </head>
   <body>
-    <div id="details-container">
+    <h1>Cinetide</h1>
+
+    <div class="navbar">
+      <button id="return-to-search" onclick="returnToSearch()">Return to Search</button>
+      <button id="return-to-browse" onclick="returnToBrowse()">Return to Browse</button>
     </div>
 
-    <script>
+    <div id="details-container"></div>
 
+    <script>
       document.addEventListener('DOMContentLoaded', function () {
         const urlParams = new URLSearchParams(window.location.search);
         const mediaType = urlParams.get('mediaType');
@@ -103,7 +127,6 @@
           const detailsContainer = document.getElementById('details-container');
           detailsContainer.innerHTML = `
             <img src="https://image.tmdb.org/t/p/w200${details.poster_path}" alt="${details.title || details.name} Poster">
-            <h1>${details.title || details.name}</h1>
             <p>${details.overview}</p>
             ${mediaType === 'tv' ? `
               <label for="season">Season:</label>
@@ -112,7 +135,6 @@
               <select id="episode"></select>
             ` : ''}
             <button onclick="playContent('${streamingLink}')">Play</button>
-            <button id="return-to-search" onclick="returnToSearch()">Return to Search</button>
           `;
 
           if (mediaType === 'tv') {
@@ -158,6 +180,9 @@
         window.location.href = 'search.html';
       }
 
+      function returnToBrowse() {
+        window.location.href = 'browse.html';
+      }
     </script>
   </body>
 </html>
