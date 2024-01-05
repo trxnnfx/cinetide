@@ -145,28 +145,35 @@
     <div id="popular-series" class="results-container"></div>
 </section>
 
+
 <script>
     const apiKey = 'b0d5acb6165dce93012ec428819f1f7e';
     const maxResults = 15;
 
     async function fetchMovies(url, containerId) {
-        const response = await fetch(url);
-        const data = await response.json();
-        const container = document.getElementById(containerId);
+        try {
+            const response = await fetch(url);
+            const data = await response.json();
+            const container = document.getElementById(containerId);
 
-        container.innerHTML = data.results
-            .slice(0, maxResults)
-            .map(result => `
-                <div class="result-item" onclick="redirectToDetails('${result.id}', '${result.title}', '${result.poster_path}')">
-                    <img src="https://image.tmdb.org/t/p/w200${result.poster_path}" alt="${result.title}">
-                    <p>${result.title || 'Title Not Available'}</p>
-                </div>
-            `)
-            .join('');
+            container.innerHTML = data.results
+                .filter(result => result.title) // Filter out results with undefined titles
+                .slice(0, maxResults)
+                .map(result => `
+                    <div class="result-item" onclick="redirectToDetails('${result.id}', '${result.title}', '${result.poster_path}', 'movie')">
+                        <img src="https://image.tmdb.org/t/p/w200${result.poster_path}" alt="${result.title}">
+                        <p>${result.title}</p>
+                    </div>
+                `)
+                .join('');
+        } catch (error) {
+            console.error('Error fetching movies:', error);
+        }
     }
 
-    function redirectToDetails(id, title, posterPath) {
-        window.location.href = `details.html?id=${id}&title=${encodeURIComponent(title)}&posterPath=${posterPath}`;
+    function redirectToDetails(id, title, posterPath, mediaType) {
+        // Redirect to details.html with the relevant information
+        window.location.href = `details.html?mediaType=${mediaType}&mediaId=${id}`;
     }
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -180,8 +187,10 @@ document.addEventListener('DOMContentLoaded', function () {
     fetchMovies(highestRankingSeriesUrl, 'popular-series');
     fetchMovies(popularSeriesUrl, 'latest-series');
 });
+  
 
 </script>
+
 
 </body>
 </html>
