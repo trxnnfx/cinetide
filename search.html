@@ -107,7 +107,8 @@ async function search(url, container, type) {
           <p>${overview}</p>
         `;
         resultDiv.addEventListener('click', function () {
-          window.location.href = streamingLink;
+          redirectToDetailsPage(mediaType, mediaId);
+        //window.location.href = streamingLink;
         });
 
       } catch (error) {
@@ -124,6 +125,10 @@ async function search(url, container, type) {
       container.appendChild(resultDiv);
     }
   });
+}
+      
+function redirectToDetailsPage(mediaType, mediaId) {
+  window.location.href = `details.html?mediaType=${mediaType}&mediaId=${mediaId}`;
 }
 
 

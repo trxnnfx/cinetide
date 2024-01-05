@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Details</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    
+  </head>
+  <body>
+    <div id="details-container">
+      <!-- Movie/TV show details will be dynamically inserted here using JavaScript -->
+    </div>
+
+    <script>
+      // Inside the <script> tag in details.html
+
+document.addEventListener('DOMContentLoaded', function () {
+  // Get parameters from the URL
+  const urlParams = new URLSearchParams(window.location.search);
+  const mediaType = urlParams.get('mediaType');
+  const mediaId = urlParams.get('mediaId');
+
+  // Fetch additional details based on mediaType and mediaId
+  fetchDetails(mediaType, mediaId);
+});
+
+async function fetchDetails(mediaType, mediaId) {
+  const detailsUrl = mediaType === 'tv' ? `https://api.themoviedb.org/3/tv/${mediaId}?api_key=b0d5acb6165dce93012ec428819f1f7e` : `https://api.themoviedb.org/3/movie/${mediaId}?api_key=b0d5acb6165dce93012ec428819f1f7e`;
+
+  try {
+    const detailsResponse = await fetch(detailsUrl);
+    const details = await detailsResponse.json();
+
+    // Populate the details-container div with the fetched details
+    const detailsContainer = document.getElementById('details-container');
+    detailsContainer.innerHTML = `
+      <img src="https://image.tmdb.org/t/p/w200${details.poster_path}" alt="${details.title || details.name} Poster">
+      <h1>${details.title || details.name}</h1>
+      <p>${details.overview}</p>
+      ${mediaType === 'tv' ? `<p>Seasons: ${details.number_of_seasons}</p>` : ''}
+      ${mediaType === 'tv' ? `<p>Episodes: ${details.number_of_episodes}</p>` : ''}
+    `;
+  } catch (error) {
+    console.error('Error fetching details:', error);
+    // Handle error
+  }
+}
+
+    </script>
+  </body>
+</html>
