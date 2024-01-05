@@ -1,40 +1,78 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <title>random streaming site</title>
+<head>
+    <title>Cinetide</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/assets/index-c6e53e39.css">
-  </head>
-  <body>
-    <h1>random streaming site</h1>
-    <button onclick="location.href = 'search.html'">
-      Go to search
-    </button>
-    <label for="videoSource">Select Video Source:</label>
+  <link rel="icon" type="image/x-icon" href="https://cdn.glitch.global/ada427c8-725f-4ebf-9a00-f984d0bb1d25/favicon-32x32.png?v=1704492447218">
+    <style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #1a1a1a;
+            color: #ffffff;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            font-size: 42px;
+            color: #ffffff;
+        }
+
+        .nav-button {
+            background-color: #555555;
+            color: #ffffff;
+            border: none;
+            padding: 10px 15px;
+            cursor: pointer;
+        }
+
+        .nav-button:hover {
+            background-color: #777777;
+        }
+
+        .specific-buttons {
+            width: 100px;
+            margin: 0 10px 1 0;
+        }
+
+        select {
+            margin: 0 10px;
+            padding: 10px 15px;
+        }
+    </style>
+  <link rel="stylesheet" href="/assets/index-7593a8af.css">
+</head>
+<body>
+    <h1>Cinetide</h1>
+    <button class="nav-button specific-buttons" onclick="location.href = 'search.html'">Search</button>
+    <button class="nav-button specific-buttons" onclick="location.href = 'browse.html'">Browse</button>
+  
+    <label for="videoSource"></label>
     <select id="videoSource" onchange="toggleInputBars()">
       <option value="vidsrc">VidSrc</option>
       <option value="superembed">SuperEmbed</option>
     </select>
 
-    <label for="videoType">Select Video Type:</label>
+    <label for="videoType"></label>
     <select id="videoType" onchange="toggleInputBars()">
       <option value="movie">Movie</option>
       <option value="series">Series</option>
     </select>
 
     <div id="movieInputs">
-      <label for="movieId">Enter Movie ID:</label>
-      <input type="text" id="movieId" placeholder="Enter movie ID">
-      <button onclick="changeVideo('movie')">Watch Movie</button>
+      <label for="movieId"></label>
+      <input type="text" id="movieId" placeholder="Enter movie ID (TMDB or IMDB)">
+      <button onclick="changeVideo('movie')">Watch Movie/Series</button>
     </div>
 
     <div id="seriesInputs" style="display:none;">
-      <label for="seriesId">Enter Series ID:</label>
-      <input type="text" id="seriesId" placeholder="Enter series ID">
-      <label for="season">Season:</label>
+      <label for="seriesId"></label>
+      <input type="text" id="seriesId" placeholder="Enter Series ID (TMDB or IMDB)">
+      <label for="season" style="display: none;">Season:</label>
       <input type="text" id="season" placeholder="Enter season">
-      <label for="episode">Episode:</label>
+      <label for="episode" style="display: none;">Episode:</label>
       <input type="text" id="episode" placeholder="Enter episode">
       <button onclick="changeVideo('series')">Watch Series</button>
     </div>
