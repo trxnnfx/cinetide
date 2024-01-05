@@ -23,13 +23,6 @@
             align-items: center;
         }
 
-        .navbar h1 {
-            margin: 0;
-            font-size: 32px;
-            color: #ffffff;
-            text-align: center;
-        }
-
         .navbar a {
             text-decoration: none;
             color: #ffffff;
@@ -80,12 +73,25 @@
             flex-shrink: 0;
             width: 230px;
             text-align: center;
+            overflow: hidden;
+            position: relative;
+            border-radius: 12px;
+            transition: box-shadow 0.3s;
+        }
+
+        .result-item:hover {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
         }
 
         .result-item img {
             max-width: 100%;
             height: auto;
             border-radius: 12px;
+            transition: transform 0.3s;
+        }
+
+        .result-item:hover img {
+            transform: scale(1.08);
         }
 
         .result-item p {
