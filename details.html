@@ -1,26 +1,63 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Details</title>
+    <title>Movie/TV Show Details</title>
     <link rel="stylesheet" type="text/css" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
-    
+    <style>
+      body {
+        font-family: 'Montserrat', sans-serif;
+        background-color: #222222;
+        color: white;
+        text-align: center;
+        margin: 20px;
+      }
+
+      #details-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      img {
+        max-width: 100%;
+        border-radius: 8px;
+        margin-bottom: 20px;
+      }
+
+      h1 {
+        margin-bottom: 10px;
+      }
+
+      p {
+        margin-bottom: 20px;
+      }
+
+      select {
+        margin-bottom: 20px;
+      }
+
+      button {
+        background-color: #3498db;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+    </style>
   </head>
   <body>
     <div id="details-container">
-      <!-- Movie/TV show details will be dynamically inserted here using JavaScript -->
     </div>
 
     <script>
-      // Inside the <script> tag in details.html
 
 document.addEventListener('DOMContentLoaded', function () {
-  // Get parameters from the URL
   const urlParams = new URLSearchParams(window.location.search);
   const mediaType = urlParams.get('mediaType');
   const mediaId = urlParams.get('mediaId');
 
-  // Fetch additional details based on mediaType and mediaId
   fetchDetails(mediaType, mediaId);
 });
 
@@ -30,19 +67,67 @@ async function fetchDetails(mediaType, mediaId) {
   try {
     const detailsResponse = await fetch(detailsUrl);
     const details = await detailsResponse.json();
+    
+    let streamingLink = '';
 
-    // Populate the details-container div with the fetched details
+    if (mediaType === 'tv' && details.number_of_seasons > 0) {
+      const season = 1;
+      const episode = 1;
+      streamingLink = `https://vidsrc.to/embed/tv/${mediaId}/${season}-${episode}`;
+    } else {
+      streamingLink = `https://vidsrc.to/embed/movie/${mediaId}`;
+    }
+
     const detailsContainer = document.getElementById('details-container');
     detailsContainer.innerHTML = `
       <img src="https://image.tmdb.org/t/p/w200${details.poster_path}" alt="${details.title || details.name} Poster">
       <h1>${details.title || details.name}</h1>
       <p>${details.overview}</p>
-      ${mediaType === 'tv' ? `<p>Seasons: ${details.number_of_seasons}</p>` : ''}
-      ${mediaType === 'tv' ? `<p>Episodes: ${details.number_of_episodes}</p>` : ''}
+      ${mediaType === 'tv' ? `
+        <label for="season">Season:</label>
+        <select id="season"></select>
+        <label for="episode">Episode:</label>
+        <select id="episode"></select>
+      ` : ''}
+      <button onclick="playContent('${streamingLink}')">Play</button>
     `;
+
+    if (mediaType === 'tv') {
+      const seasonSelector = document.getElementById('season');
+      const episodeSelector = document.getElementById('episode');
+
+      for (let seasonNumber = 1; seasonNumber <= details.number_of_seasons; seasonNumber++) {
+        const option = document.createElement('option');
+        option.value = seasonNumber;
+        option.text = `Season ${seasonNumber}`;
+        seasonSelector.add(option);
+      }
+
+      for (let episodeNumber = 1; episodeNumber <= details.number_of_episodes; episodeNumber++) {
+        const option = document.createElement('option');
+        option.value = episodeNumber;
+        option.text = `Episode ${episodeNumber}`;
+        episodeSelector.add(option);
+      }
+    }
   } catch (error) {
     console.error('Error fetching details:', error);
-    // Handle error
+  }
+}
+
+function playContent(streamingLink) {
+  if (streamingLink.includes('/tv/')) {
+    const seasonSelector = document.getElementById('season');
+    const episodeSelector = document.getElementById('episode');
+
+    const selectedSeason = seasonSelector.value;
+    const selectedEpisode = episodeSelector.value;
+
+    const updatedStreamingLink = `${streamingLink.replace(/\/1-1$/, `/${selectedSeason}-${selectedEpisode}`)}`;
+    
+    window.location.href = updatedStreamingLink;
+  } else {
+    window.location.href = streamingLink;
   }
 }
 
