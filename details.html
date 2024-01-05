@@ -162,8 +162,29 @@
         }
       }
 
-      function playContent(streamingLink) {
-          window.location.href = `player.html?streamingLink=${encodeURIComponent(streamingLink)}`;
+      async function playContent(streamingLink) {
+        const urlParams = new URLSearchParams(window.location.search);
+        const mediaType = urlParams.get('mediaType');
+        const seriesId = urlParams.get('mediaId');
+        const seasonSelector = document.getElementById('season');
+        const episodeSelector = document.getElementById('episode');
+        
+        let season = 1;
+        let episode = 1;
+
+        if (mediaType === 'tv' && seasonSelector && episodeSelector) {
+          season = seasonSelector.value;
+          episode = episodeSelector.value;
+        }
+
+        if (mediaType === 'tv') {
+          const isVidsrc = streamingLink.includes('vidsrc.to');
+          if (isVidsrc) {
+            streamingLink = `https://vidsrc.to/embed/tv/${seriesId}/${season}/${episode}`;
+          }
+        }
+
+        window.location.href = `player.html?streamingLink=${encodeURIComponent(streamingLink)}`;
       }
 
       function returnToSearch() {
