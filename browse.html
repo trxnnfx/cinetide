@@ -27,6 +27,7 @@
             margin: 0;
             font-size: 32px;
             color: #ffffff;
+            text-align: center;
         }
 
         .navbar a {
@@ -37,6 +38,11 @@
             border-radius: 5px;
             margin-right: 10px;
             cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .navbar a:hover {
+            background-color: #555555;
         }
 
         h1 {
@@ -47,7 +53,7 @@
         }
 
         .section {
-            margin-bottom: 20px;
+            margin-bottom: 5px;
             text-align: left;
             padding: 20px;
         }
@@ -106,8 +112,8 @@
 
 <div class="navbar">
     <div>
-        <a href="#">Home</a>
-        <a href="#">Search</a>
+        <a href="index.html">Home</a>
+        <a href="search.html">Search</a>
     </div>
     <h1>Browse Movies and Series</h1>
 </div>
@@ -141,7 +147,7 @@
             .map(result => `
                 <div class="result-item">
                     <img src="https://image.tmdb.org/t/p/w200${result.poster_path}" alt="${result.title}">
-                    <p>${result.title}</p>
+                    <p>${result.title || 'Title Not Available'}</p>
                 </div>
             `)
             .join('');
