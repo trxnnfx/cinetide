@@ -15,6 +15,30 @@
             padding: 0;
         }
 
+        .navbar {
+            background-color: #121212;
+            padding: 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar h1 {
+            margin: 0;
+            font-size: 32px;
+            color: #ffffff;
+        }
+
+        .navbar a {
+            text-decoration: none;
+            color: #ffffff;
+            background-color: #333333;
+            padding: 10px 20px;
+            border-radius: 5px;
+            margin-right: 10px;
+            cursor: pointer;
+        }
+
         h1 {
             text-align: center;
             margin-bottom: 20px;
@@ -23,14 +47,14 @@
         }
 
         .section {
-            margin-bottom: 0px;
+            margin-bottom: 20px;
             text-align: left;
-            padding: 25px;
+            padding: 20px;
         }
 
         .section h2 {
-            margin-bottom: 18px;
-            font-size: 28px;
+            margin-bottom: 15px;
+            font-size: 32px;
             color: #ffffff;
         }
 
@@ -80,7 +104,13 @@
 </head>
 <body>
 
-<h1>Browse Movies and Series</h1>
+<div class="navbar">
+    <div>
+        <a href="#">Home</a>
+        <a href="#">Search</a>
+    </div>
+    <h1>Browse Movies and Series</h1>
+</div>
 
 <section class="section">
     <h2>Popular this week</h2>
@@ -117,15 +147,18 @@
             .join('');
     }
 
-    document.addEventListener('DOMContentLoaded', function () {
-        const popularMoviesUrl = `https://api.themoviedb.org/3/movie/popular?api_key=${apiKey}&language=en-US&page=1`;
-        const latestMoviesUrl = `https://api.themoviedb.org/3/movie/now_playing?api_key=${apiKey}&language=en-US&page=1`;
-        const popularSeriesUrl = `https://api.themoviedb.org/3/tv/popular?api_key=${apiKey}&language=en-US&page=1`;
+document.addEventListener('DOMContentLoaded', function () {
+    const popularThisWeekUrl = `https://api.themoviedb.org/3/trending/all/week?api_key=${apiKey}&language=en-US&page=1`;
+    const highestRankingUrl = `https://api.themoviedb.org/3/movie/top_rated?api_key=${apiKey}&language=en-US&page=1`;
+    const highestRankingSeriesUrl = `https://api.themoviedb.org/3/tv/top_rated?api_key=${apiKey}&language=en-US&page=1`;
+    const popularSeriesUrl = `https://api.themoviedb.org/3/tv/popular?api_key=${apiKey}&language=en-US&page=1`;
 
-        fetchMovies(popularMoviesUrl, 'popular-movies');
-        fetchMovies(latestMoviesUrl, 'latest-movies');
-        fetchMovies(popularSeriesUrl, 'popular-series');
-    });
+    fetchMovies(popularThisWeekUrl, 'popular-movies');
+    fetchMovies(highestRankingUrl, 'latest-movies');
+    fetchMovies(highestRankingSeriesUrl, 'popular-series');
+    fetchMovies(popularSeriesUrl, 'latest-series');
+});
+
 </script>
 
 </body>
