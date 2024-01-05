@@ -163,19 +163,7 @@
       }
 
       function playContent(streamingLink) {
-        if (streamingLink.includes('/tv/')) {
-          const seasonSelector = document.getElementById('season');
-          const episodeSelector = document.getElementById('episode');
-
-          const selectedSeason = seasonSelector.value;
-          const selectedEpisode = episodeSelector.value;
-
-          const updatedStreamingLink = `${streamingLink.replace(/\/1-1$/, `/${selectedSeason}-${selectedEpisode}`)}`;
-
-          window.location.href = updatedStreamingLink.replace(/-/g, '/');
-        } else {
-          window.location.href = streamingLink;
-        }
+          window.location.href = `player.html?streamingLink=${encodeURIComponent(streamingLink)}`;
       }
 
       function returnToSearch() {
