@@ -47,20 +47,20 @@
     <button class="nav-button specific-buttons" onclick="location.href = 'search.html'">Search</button>
     <button class="nav-button specific-buttons" onclick="location.href = 'browse.html'">Browse</button>
   
-    <label for="videoSource">Select Video Source:</label>
+    <label for="videoSource">-</label>
     <select id="videoSource" onchange="toggleInputBars()">
       <option value="vidsrc">VidSrc</option>
       <option value="superembed">SuperEmbed</option>
     </select>
 
-    <label for="videoType">Select Video Type:</label>
+    <label for="videoType"></label>
     <select id="videoType" onchange="toggleInputBars()">
       <option value="movie">Movie</option>
       <option value="series">Series</option>
     </select>
 
     <div id="movieInputs">
-      <label for="movieId">Enter Movie ID:</label>
+      <label for="movieId"></label>
       <input type="text" id="movieId" placeholder="Enter movie ID">
       <button onclick="changeVideo('movie')">Watch Movie</button>
     </div>
