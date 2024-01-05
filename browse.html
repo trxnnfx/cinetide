@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Browse Movies and Series</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #1a1a1a;
+            color: #ffffff;
+            text-align: center;
+            margin: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 42px;
+            color: #ffffff;
+        }
+
+        .section {
+            margin-bottom: 40px;
+        }
+
+        .section h2 {
+            margin-bottom: 10px;
+            font-size: 28px;
+        }
+
+        .results-container {
+            display: flex;
+            overflow-x: auto;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        .result-item {
+            width: 150px; /* Set a fixed width for the movie posters */
+            text-align: center;
+        }
+
+        .result-item img {
+            max-width: 100%;
+            border-radius: 8px;
+        }
+
+        .result-item p {
+            color: white;
+            font-size: 16px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Browse Movies and Series</h1>
+
+<section class="section">
+    <h2>Most Popular Movies</h2>
+    <div id="popular-movies" class="results-container"></div>
+</section>
+
+<section class="section">
+    <h2>Latest Movies</h2>
+    <div id="latest-movies" class="results-container"></div>
+</section>
+
+<section class="section">
+    <h2>Most Popular Series</h2>
+    <div id="popular-series" class="results-container"></div>
+</section>
+
+<script>
+    const apiKey = 'b0d5acb6165dce93012ec428819f1f7e';
+
+    async function fetchMovies(url, containerId) {
+        const response = await fetch(url);
+        const data = await response.json();
+        const container = document.getElementById(containerId);
+
+        container.innerHTML = data.results
+            .map(result => `
+                <div class="result-item">
+                    <img src="https://image.tmdb.org/t/p/w200${result.poster_path}" alt="${result.title}">
+                    <p>${result.title}</p>
+                </div>
+            `)
+            .join('');
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const popularMoviesUrl = `https://api.themoviedb.org/3/movie/popular?api_key=${apiKey}&language=en-US&page=1`;
+        const latestMoviesUrl = `https://api.themoviedb.org/3/movie/now_playing?api_key=${apiKey}&language=en-US&page=1`;
+        const popularSeriesUrl = `https://api.themoviedb.org/3/tv/popular?api_key=${apiKey}&language=en-US&page=1`;
+
+        fetchMovies(popularMoviesUrl, 'popular-movies');
+        fetchMovies(latestMoviesUrl, 'latest-movies');
+        fetchMovies(popularSeriesUrl, 'popular-series');
+    });
+</script>
+
+</body>
+</html>

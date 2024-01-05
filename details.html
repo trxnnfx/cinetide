@@ -50,8 +50,8 @@
         background-color: #2980b9;
       }
 
-      button#return-to-home {
-        margin-top: 80px; 
+      button#return-to-search {
+        margin-top: 10px; 
         width: 150px;
         border: 2px solid #3498db;
         color: #3498db;
@@ -61,7 +61,7 @@
         transition: background-color 0.3s;
       }
 
-      button#return-to-home:hover {
+      button#return-to-search:hover {
         background-color: transparent;
         border: 3px solid #ffffff;
         color: #ffffff;
@@ -112,7 +112,7 @@
               <select id="episode"></select>
             ` : ''}
             <button onclick="playContent('${streamingLink}')">Play</button>
-            <button id="return-to-home" onclick="returnToHome()">Return to Home</button>
+            <button id="return-to-search" onclick="returnToSearch()">Return to Search</button>
           `;
 
           if (mediaType === 'tv') {
@@ -154,8 +154,8 @@
         }
       }
 
-      function returnToHome() {
-        window.location.href = 'index.html';
+      function returnToSearch() {
+        window.location.href = 'search.html';
       }
 
     </script>
