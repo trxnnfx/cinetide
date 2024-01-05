@@ -4,6 +4,7 @@
     <title>Cinetide</title>
     <link rel="stylesheet" type="text/css" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/x-icon" href="https://cdn.glitch.global/ada427c8-725f-4ebf-9a00-f984d0bb1d25/favicon-32x32.png?v=1704492447218">
     <style>
         body {
             font-family: 'Montserrat', sans-serif;
@@ -47,7 +48,7 @@
     <button class="nav-button specific-buttons" onclick="location.href = 'search.html'">Search</button>
     <button class="nav-button specific-buttons" onclick="location.href = 'browse.html'">Browse</button>
   
-    <label for="videoSource">-</label>
+    <label for="videoSource"></label>
     <select id="videoSource" onchange="toggleInputBars()">
       <option value="vidsrc">VidSrc</option>
       <option value="superembed">SuperEmbed</option>
@@ -61,16 +62,16 @@
 
     <div id="movieInputs">
       <label for="movieId"></label>
-      <input type="text" id="movieId" placeholder="Enter movie ID">
-      <button onclick="changeVideo('movie')">Watch Movie</button>
+      <input type="text" id="movieId" placeholder="Enter movie ID (TMDB or IMDB)">
+      <button onclick="changeVideo('movie')">Watch Movie/Series</button>
     </div>
 
     <div id="seriesInputs" style="display:none;">
-      <label for="seriesId">Enter Series ID:</label>
-      <input type="text" id="seriesId" placeholder="Enter series ID">
-      <label for="season">Season:</label>
+      <label for="seriesId"></label>
+      <input type="text" id="seriesId" placeholder="Enter Series ID (TMDB or IMDB)">
+      <label for="season" style="display: none;">Season:</label>
       <input type="text" id="season" placeholder="Enter season">
-      <label for="episode">Episode:</label>
+      <label for="episode" style="display: none;">Episode:</label>
       <input type="text" id="episode" placeholder="Enter episode">
       <button onclick="changeVideo('series')">Watch Series</button>
     </div>
